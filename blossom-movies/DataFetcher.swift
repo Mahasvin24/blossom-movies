@@ -19,9 +19,31 @@ func fetchTitles(for media: String) async throws -> [Title] {
         throw NetworkError.missingConfig
     }
     
-    let fetchTitlesURL = URL(string: baseURL)
-        .appending(path: "3/trending\(media)/day")
+    guard let fetchTitlesURL = URL(string: baseURL)?
+        .appending(path: "3/trending/\(media)/day")
         .appending(queryItems: [
             URLQueryItem(name: "api_key", value: apiKey)
-        ])
+        ]) else {
+        throw NetworkError.urlBuildFailed
+    }
+    
+    print(fetchTitlesURL) // for debug
+    
+    // API Call
+    let (data, urlResponse) = try await URLSession.shared.data(from: fetchTitlesURL)
+    
+    // Response error handling
+    guard let response = urlResponse as? HTTPURLResponse, response.statusCode == 200 else {
+        throw NetworkError.badURLResponse(underlyingError: NSError(
+            domain: "DataFetcher",
+            code: (urlResponse as? HTTPURLResponse)?.statusCode ?? -1,
+            userInfo: [NSLocalizedDescriptionKey: "Invalid HTTP Response"]
+        ))
+    }
+    
+    // Decoder
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase // here b/c we use camel case but API uses snake case
+    
+    return try decoder.decode(APIObject.self, from: data).results
 }
