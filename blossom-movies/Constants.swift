@@ -30,9 +30,7 @@ struct Constants {
     static let testTitleURL = "https://image.tmdb.org/t/p/w500/nnl6OWkyPpuMm595hmAxNW3rZFn.jpg"
     static let testTitleURL2 = "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg"
     static let testTitleURL3 = "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg"
-    
     static let posterURLStart = "https://image.tmdb.org/t/p/w500/"
-    
     static func addPosterPath(to titles: inout[Title]) {
         for i in titles.indices {
             if let path = titles[i].posterPath {
@@ -41,12 +39,7 @@ struct Constants {
         }
     }
     
-//    struct Icons {
-//        static let homeIconString = "house"
-//        static let upcomingIconString = "play.circle"
-//        static let searchIconString = "magnifyingglass"
-//        static let downloadsIconString = "arrow.down.to.line"
-//    }
+    
 }
 
 extension Text {

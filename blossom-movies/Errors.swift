@@ -35,7 +35,8 @@ enum NetworkError: Error, LocalizedError {
             return "Failed to parse URL response \(error.localizedDescription)"
         case .missingConfig:
             return "Missing API Configuration"
-        case .urlBuildFailed
+        case .urlBuildFailed:
             return "Failed to build URL"
+        }
     }
 }
