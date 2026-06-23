@@ -31,12 +31,22 @@ struct Constants {
     static let testTitleURL2 = "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg"
     static let testTitleURL3 = "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg"
     
-    struct Icons {
-        static let homeIconString = "house"
-        static let upcomingIconString = "play.circle"
-        static let searchIconString = "magnifyingglass"
-        static let downloadsIconString = "arrow.down.to.line"
+    static let posterURLStart = "https://image.tmdb.org/t/p/w500/"
+    
+    static func addPosterPath(to titles: inout[Title]) {
+        for i in titles.indices {
+            if let path = titles[i].posterPath {
+                titles[i].posterPath = Constants.posterURLStart + path
+            }
+        }
     }
+    
+//    struct Icons {
+//        static let homeIconString = "house"
+//        static let upcomingIconString = "play.circle"
+//        static let searchIconString = "magnifyingglass"
+//        static let downloadsIconString = "arrow.down.to.line"
+//    }
 }
 
 extension Text {
