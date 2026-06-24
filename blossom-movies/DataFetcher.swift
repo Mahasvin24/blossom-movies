@@ -11,20 +11,9 @@ struct DataFetcher {
     let tmdbBaseURL = APIConfig.shared?.tmdbBaseURL
     let tmdbAPIKey = APIConfig.shared?.tmdbAPIKey
     
-    func fetchTitles(for media: String) async throws -> [Title] {
-        // load from config
-        guard let baseURL = tmdbBaseURL else {
-            throw NetworkError.missingConfig
-        }
-        guard let apiKey = tmdbAPIKey else {
-            throw NetworkError.missingConfig
-        }
-        
-        guard let fetchTitlesURL = URL(string: baseURL)?
-            .appending(path: "3/trending/\(media)/day")
-            .appending(queryItems: [
-                URLQueryItem(name: "api_key", value: apiKey)
-            ]) else {
+    func fetchTitles(for media: String, by type: String) async throws -> [Title] {
+        // create URL
+        guard let fetchTitlesURL = try buildURL(media: media, type: type) else {
             throw NetworkError.urlBuildFailed
         }
         
@@ -49,5 +38,36 @@ struct DataFetcher {
         Constants.addPosterPath(to: &titles)
         
         return titles
+    }
+    
+    private func buildURL(media: String, type: String) throws -> URL? {
+        // config
+        guard let baseURL = tmdbBaseURL else {
+            throw NetworkError.missingConfig
+        }
+        guard let apiKey = tmdbAPIKey else {
+            throw NetworkError.missingConfig
+        }
+        
+        var path: String
+        
+        switch type {
+        case "trending":
+            path = "3/trending/\(media)/day"
+        case "top_rated":
+            path = "3/\(media)/top_rated"
+        default:
+            throw NetworkError.urlBuildFailed
+        }
+        
+        guard let url = URL(string: baseURL)?
+            .appending(path: path)
+            .appending(queryItems: [
+                URLQueryItem(name: "api_key", value: apiKey)
+            ]) else {
+            throw NetworkError.urlBuildFailed
+        }
+        
+        return url
     }
 }
