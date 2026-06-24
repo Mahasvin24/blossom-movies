@@ -20,6 +20,7 @@ struct HomeView: View {
                     EmptyView()
                 case .fetching:
                     ProgressView()
+                        .frame(width: geo.size.width, height: geo.size.height)
                 case .success:
                     LazyVStack {
                         // Opening image
