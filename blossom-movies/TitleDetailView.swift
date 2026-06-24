@@ -39,5 +39,5 @@ struct TitleDetailView: View {
 }
 
 #Preview {
-    TitleDetailView(title: Title.previewTitles[1])
+    TitleDetailView(title: Title.previewTitles[0])
 }
