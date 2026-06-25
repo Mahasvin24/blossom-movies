@@ -28,7 +28,7 @@ struct TitleDetailView: View {
                         .bold()
                         .font(.title2)
                         .padding(.horizontal, 10)
-                        .padding(.bottom, 4)
+                        .padding(.vertical, 4)
                     
                     Text(title.overview ?? "")
                         .padding(.horizontal, 10)
